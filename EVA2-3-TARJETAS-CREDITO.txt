@@ -1,0 +1,99 @@
+MySQL Shell 8.0.35
+
+Copyright (c) 2016, 2023, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): N
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 9
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++----------------------+
+| Database             |
++----------------------+
+| agencia              |
+| credit_cards         |
+| geeklogin            |
+| information_schema   |
+| inventario_smartmart |
+| mysql                |
+| orders               |
+| performance_schema   |
+| sakila               |
+| sql_credit_cards     |
+| sys                  |
+| tbd2                 |
+| tbd_1                |
+| world                |
++----------------------+
+14 rows in set (0.0074 sec)
+ MySQL  localhost:3306 ssl  SQL > use credit_cards;
+Default schema set to `credit_cards`.
+Fetching global names, object names from `credit_cards` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  credit_cards  SQL > show tables;
++------------------------+
+| Tables_in_credit_cards |
++------------------------+
+| tarjetas_credito       |
+| titulares_tarjetas     |
++------------------------+
+2 rows in set (0.0045 sec)
+ MySQL  localhost:3306 ssl  credit_cards  SQL > drop tarjetas_credito;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tarjetas_credito' at line 1
+ MySQL  localhost:3306 ssl  credit_cards  SQL > drop titulares_tarjetas;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'titulares_tarjetas' at line 1
+ MySQL  localhost:3306 ssl  credit_cards  SQL > drop table tarjetas_Credito;
+ERROR: 3730 (HY000): Cannot drop table 'tarjetas_credito' referenced by a foreign key constraint 'titulares_tarjetas_ibfk_1' on table 'titulares_tarjetas'.
+ MySQL  localhost:3306 ssl  credit_cards  SQL > drop table titulares_tarjetas;
+Query OK, 0 rows affected (0.1915 sec)
+ MySQL  localhost:3306 ssl  credit_cards  SQL > drop table tarjetas_Credito;
+Query OK, 0 rows affected (0.0431 sec)
+ MySQL  localhost:3306 ssl  credit_cards  SQL > create table clientes(
+                                             -> id_clientes int not null auto_increment key,
+                                             -> nombre varchar(50) not null);
+Query OK, 0 rows affected (0.0923 sec)
+ MySQL  localhost:3306 ssl  credit_cards  SQL > create table bancos(
+                                             -> id_banco int not null auto_increment key,
+                                             -> nombre varchar(50) not null);
+Query OK, 0 rows affected (0.1355 sec)
+ MySQL  localhost:3306 ssl  credit_cards  SQL > alter table clientes modify id_clientes id_cliente int not null auto_increment key;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id_cliente int not null auto_increment key' at line 1
+ MySQL  localhost:3306 ssl  credit_cards  SQL > alter table clientes
+                                             -> rename column id_cliente to id_cliente;
+ERROR: 1054 (42S22): Unknown column 'id_cliente' in 'clientes'
+ MySQL  localhost:3306 ssl  credit_cards  SQL > alter table clientes rename column id_clientes to id_cliente;
+Query OK, 0 rows affected (0.1007 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  credit_cards  SQL > create table tarjetas(
+                                             -> id_tarjeta int not null key auto_increment,
+                                             -> nombre varchar(50));
+Query OK, 0 rows affected (0.0999 sec)
+ MySQL  localhost:3306 ssl  credit_cards  SQL > create table tarjetasCliente(
+                                             -> id_tcliente int null key auto_increment,
+                                             -> cardnumber varchar(16) not null,
+                                             -> fecha_emision date not null,
+                                             -> fecha_corte date not null,
+                                             -> pin int not null,
+                                             -> credito float not null,
+                                             -> id_cliente int,
+                                             -> id_banco int not null,
+                                             -> id_tarjeta int not null,
+                                             -> id_cliente references clientes(id_cliente) on delete cascade on update cascade,
+                                             -> id_banco references bancos(id_banco) on delete cascade on update cascade,
+                                             -> id_tarjeta references tarjetas(id_tarjeta) on delete cascade on update cascade);
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references clientes(id_cliente) on delete cascade on update cascade,
+id_banco re' at line 11
+ MySQL  localhost:3306 ssl  credit_cards  SQL > create table tarjetasCliente( id_tcliente int null key auto_increment, cardnumber varchar(16) not null, fecha_emision date not null, fecha_corte date not null, pin int not null, credito float not null, id_cliente int, id_banco int not null, id_tarjeta int not null, foreign key (id_cliente) references clientes(id_cliente) on delete cascade on update cascade, foreign key(id_banco) references bancos(id_banco) on delete cascade on update cascade, foreign key (id_tarjeta) references tarjetas(id_tarjeta) on delete cascade on update cascade);
+ERROR: 1171 (42000): All parts of a PRIMARY KEY must be NOT NULL; if you need NULL in a key, use UNIQUE instead
+ MySQL  localhost:3306 ssl  credit_cards  SQL > create table tarjetasCliente( id_tcliente int not null key auto_increment, cardnumber varchar(16) not null, fecha_emision date not null, fecha_corte date not null, pin int not null, credito float not null, id_cliente int, id_banco int not null, id_tarjeta int not null, foreign key (id_cliente) references clientes(id_cliente) on delete cascade on update cascade, foreign key(id_banco) references bancos(id_banco) on delete cascade on update cascade, foreign key (id_tarjeta) references tarjetas(id_tarjeta) on delete cascade on update cascade);
+Query OK, 0 rows affected (0.1709 sec)
+ MySQL  localhost:3306 ssl  credit_cards  SQL >
