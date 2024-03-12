@@ -1,0 +1,1192 @@
+MySQL Shell 8.0.35
+
+Copyright (c) 2016, 2023, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): N
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++----------------------+
+| Database             |
++----------------------+
+| agencia              |
+| credit_cards         |
+| geeklogin            |
+| information_schema   |
+| inventario_smartmart |
+| mysql                |
+| orders               |
+| orders_2             |
+| performance_schema   |
+| sakila               |
+| sql_credit_cards     |
+| sys                  |
+| tbd2                 |
+| tbd_1                |
+| world                |
++----------------------+
+15 rows in set (0.0062 sec)
+ MySQL  localhost:3306 ssl  SQL > use orders_2;
+Default schema set to `orders_2`.
+Fetching global names, object names from `orders_2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  orders_2  SQL > show tables;
++--------------------+
+| Tables_in_orders_2 |
++--------------------+
+| customers          |
+| items              |
+| orders             |
+| parts              |
+| salesrefs          |
++--------------------+
+5 rows in set (0.0027 sec)
+ MySQL  localhost:3306 ssl  orders_2  SQL > desc orders;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| c_id      | int         | NO   | MUL | NULL    |                |
+| orderdate | date        | NO   |     | NULL    |                |
+| shipdate  | date        | YES  |     | NULL    |                |
+| paiddate  | date        | YES  |     | NULL    |                |
+| status    | varchar(20) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+6 rows in set (0.0045 sec)
+ MySQL  localhost:3306 ssl  orders_2  SQL > desc salesrefs;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| lastname  | varchar(50) | NO   |     | NULL    |                |
+| firstname | varchar(50) | NO   |     | NULL    |                |
+| comission | int         | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0032 sec)
+ MySQL  localhost:3306 ssl  orders_2  SQL > desc customers;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| id          | int          | NO   | PRI | NULL    | auto_increment |
+| lastname    | varchar(50)  | NO   |     | NULL    |                |
+| firstname   | varchar(50)  | NO   |     | NULL    |                |
+| companyname | varchar(100) | YES  |     | NULL    |                |
+| street1     | varchar(50)  | YES  |     | NULL    |                |
+| street2     | varchar(50)  | YES  |     | NULL    |                |
+| city        | varchar(80)  | YES  |     | NULL    |                |
+| state       | varchar(20)  | YES  |     | NULL    |                |
+| zipcode     | int          | YES  |     | NULL    |                |
+| phone       | int          | YES  |     | NULL    |                |
+| fax         | int          | YES  |     | NULL    |                |
+| email       | varchar(255) | YES  |     | NULL    |                |
+| s_id        | int          | NO   | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+13 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  orders_2  SQL > show create table customers;
++-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table     | Create Table
+
+
+
+
+                                                                                                                     |
++-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| customers | CREATE TABLE `customers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `lastname` varchar(50) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `companyname` varchar(100) DEFAULT NULL,
+  `street1` varchar(50) DEFAULT NULL,
+  `street2` varchar(50) DEFAULT NULL,
+  `city` varchar(80) DEFAULT NULL,
+  `state` varchar(20) DEFAULT NULL,
+  `zipcode` int DEFAULT NULL,
+  `phone` int DEFAULT NULL,
+  `fax` int DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `s_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `salesrefs_fk` (`s_id`),
+  CONSTRAINT `salesrefs_fk` FOREIGN KEY (`s_id`) REFERENCES `salesrefs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0100 sec)
+ MySQL  localhost:3306 ssl  orders_2  SQL > use tbd2;
+Default schema set to `tbd2`.
+Fetching global names, object names from `tbd2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd2  SQL > show databases;
++----------------------+
+| Database             |
++----------------------+
+| agencia              |
+| credit_cards         |
+| geeklogin            |
+| information_schema   |
+| inventario_smartmart |
+| mysql                |
+| orders               |
+| orders_2             |
+| performance_schema   |
+| sakila               |
+| sql_credit_cards     |
+| sys                  |
+| tbd2                 |
+| tbd_1                |
+| world                |
++----------------------+
+15 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > create table tablaA(
+                                     -> id int,
+                                     -> nombre varchar(10));
+Query OK, 0 rows affected (0.1413 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > create table tablaB( id int, nombre varchar(10));
+Query OK, 0 rows affected (0.0986 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > desc tablaA;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | YES  |     | NULL    |       |
+| nombre | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.0045 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > desc tablaB;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | YES  |     | NULL    |       |
+| nombre | varchar(10) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+2 rows in set (0.0044 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > insert into tablaa
+                                     -> values (1,"A"),(2,"B"),(3,"C"),(4,"D");
+Query OK, 4 rows affected (0.0277 sec)
+
+Records: 4  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd2  SQL > insert into tablab values (1,"X"),(2,"Y"),(3,"Z"),(4,"A"),(5,"B");
+Query OK, 5 rows affected (0.0121 sec)
+
+Records: 5  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
++----+--------+
+4 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablab;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | X      |
+|  2 | Y      |
+|  3 | Z      |
+|  4 | A      |
+|  5 | B      |
++----+--------+
+5 rows in set (0.0014 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa, tablab;
++----+--------+----+--------+
+| id | nombre | id | nombre |
++----+--------+----+--------+
+|  4 | D      |  1 | X      |
+|  3 | C      |  1 | X      |
+|  2 | B      |  1 | X      |
+|  1 | A      |  1 | X      |
+|  4 | D      |  2 | Y      |
+|  3 | C      |  2 | Y      |
+|  2 | B      |  2 | Y      |
+|  1 | A      |  2 | Y      |
+|  4 | D      |  3 | Z      |
+|  3 | C      |  3 | Z      |
+|  2 | B      |  3 | Z      |
+|  1 | A      |  3 | Z      |
+|  4 | D      |  4 | A      |
+|  3 | C      |  4 | A      |
+|  2 | B      |  4 | A      |
+|  1 | A      |  4 | A      |
+|  4 | D      |  5 | B      |
+|  3 | C      |  5 | B      |
+|  2 | B      |  5 | B      |
+|  1 | A      |  5 | B      |
++----+--------+----+--------+
+20 rows in set (0.0010 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa, tablab order by talbaa.nombre;
+ERROR: 1054 (42S22): Unknown column 'talbaa.nombre' in 'order clause'
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa, tablab order by tablaa.nombre;
++----+--------+----+--------+
+| id | nombre | id | nombre |
++----+--------+----+--------+
+|  1 | A      |  1 | X      |
+|  1 | A      |  2 | Y      |
+|  1 | A      |  3 | Z      |
+|  1 | A      |  4 | A      |
+|  1 | A      |  5 | B      |
+|  2 | B      |  1 | X      |
+|  2 | B      |  2 | Y      |
+|  2 | B      |  3 | Z      |
+|  2 | B      |  4 | A      |
+|  2 | B      |  5 | B      |
+|  3 | C      |  1 | X      |
+|  3 | C      |  2 | Y      |
+|  3 | C      |  3 | Z      |
+|  3 | C      |  4 | A      |
+|  3 | C      |  5 | B      |
+|  4 | D      |  1 | X      |
+|  4 | D      |  2 | Y      |
+|  4 | D      |  3 | Z      |
+|  4 | D      |  4 | A      |
+|  4 | D      |  5 | B      |
++----+--------+----+--------+
+20 rows in set (0.0023 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select tablaa.nombre, tablab.nombre from tablaa, tablab order by tablaa.nombre;
++--------+--------+
+| nombre | nombre |
++--------+--------+
+| A      | X      |
+| A      | Y      |
+| A      | Z      |
+| A      | A      |
+| A      | B      |
+| B      | X      |
+| B      | Y      |
+| B      | Z      |
+| B      | A      |
+| B      | B      |
+| C      | X      |
+| C      | Y      |
+| C      | Z      |
+| C      | A      |
+| C      | B      |
+| D      | X      |
+| D      | Y      |
+| D      | Z      |
+| D      | A      |
+| D      | B      |
++--------+--------+
+20 rows in set (0.0041 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select a.nombre, .nombre from tablaa a, tablab b order by a.nombre;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.nombre from tablaa a, tablab b order by a.nombre' at line 1
+ MySQL  localhost:3306 ssl  tbd2  SQL > select a.nombre, b.nombre from tablaa a, tablab b order by a.nombre;
++--------+--------+
+| nombre | nombre |
++--------+--------+
+| A      | X      |
+| A      | Y      |
+| A      | Z      |
+| A      | A      |
+| A      | B      |
+| B      | X      |
+| B      | Y      |
+| B      | Z      |
+| B      | A      |
+| B      | B      |
+| C      | X      |
+| C      | Y      |
+| C      | Z      |
+| C      | A      |
+| C      | B      |
+| D      | X      |
+| D      | Y      |
+| D      | Z      |
+| D      | A      |
+| D      | B      |
++--------+--------+
+20 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa union select * from tablab;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
+|  1 | X      |
+|  2 | Y      |
+|  3 | Z      |
+|  4 | A      |
+|  5 | B      |
++----+--------+
+9 rows in set (0.0050 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select nombre from tablaa union select nombre from tablab;
++--------+
+| nombre |
++--------+
+| A      |
+| B      |
+| C      |
+| D      |
+| X      |
+| Y      |
+| Z      |
++--------+
+7 rows in set (0.0032 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > use sakila;
+Default schema set to `sakila`.
+Fetching global names, object names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinc(frist_name) from actors;
+ERROR: 1146 (42S02): Table 'sakila.actors' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinc(first_name) from actors;
+ERROR: 1146 (42S02): Table 'sakila.actors' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinc(first_name) from actor;
+ERROR: 1305 (42000): FUNCTION sakila.distinc does not exist
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinct(first_name) from actor;
++-------------+
+| first_name  |
++-------------+
+| PENELOPE    |
+| NICK        |
+| ED          |
+| JENNIFER    |
+| JOHNNY      |
+| BETTE       |
+| GRACE       |
+| MATTHEW     |
+| JOE         |
+| CHRISTIAN   |
+| ZERO        |
+| KARL        |
+| UMA         |
+| VIVIEN      |
+| CUBA        |
+| FRED        |
+| HELEN       |
+| DAN         |
+| BOB         |
+| LUCILLE     |
+| KIRSTEN     |
+| ELVIS       |
+| SANDRA      |
+| CAMERON     |
+| KEVIN       |
+| RIP         |
+| JULIA       |
+| WOODY       |
+| ALEC        |
+| SISSY       |
+| TIM         |
+| MILLA       |
+| AUDREY      |
+| JUDY        |
+| BURT        |
+| VAL         |
+| TOM         |
+| GOLDIE      |
+| JODIE       |
+| KIRK        |
+| REESE       |
+| PARKER      |
+| FRANCES     |
+| ANNE        |
+| NATALIE     |
+| GARY        |
+| CARMEN      |
+| MENA        |
+| FAY         |
+| JUDE        |
+| DUSTIN      |
+| HENRY       |
+| JAYNE       |
+| RAY         |
+| ANGELA      |
+| MARY        |
+| JESSICA     |
+| KENNETH     |
+| MICHELLE    |
+| ADAM        |
+| SEAN        |
+| ANGELINA    |
+| CARY        |
+| GROUCHO     |
+| MAE         |
+| RALPH       |
+| SCARLETT    |
+| BEN         |
+| JAMES       |
+| MINNIE      |
+| GREG        |
+| SPENCER     |
+| CHARLIZE    |
+| CHRISTOPHER |
+| ELLEN       |
+| DARYL       |
+| GENE        |
+| MEG         |
+| CHRIS       |
+| JIM         |
+| SUSAN       |
+| WALTER      |
+| SIDNEY      |
+| GINA        |
+| WARREN      |
+| SYLVESTER   |
+| RUSSELL     |
+| MORGAN      |
+| HARRISON    |
+| RENEE       |
+| LIZA        |
+| SALMA       |
+| JULIANNE    |
+| ALBERT      |
+| CATE        |
+| GRETA       |
+| JANE        |
+| RICHARD     |
+| RITA        |
+| EWAN        |
+| WHOOPI      |
+| JADA        |
+| RIVER       |
+| KIM         |
+| EMILY       |
+| GEOFFREY    |
+| MERYL       |
+| IAN         |
+| LAURA       |
+| HARVEY      |
+| OPRAH       |
+| HUMPHREY    |
+| AL          |
+| LAURENCE    |
+| WILL        |
+| OLYMPIA     |
+| ALAN        |
+| MICHAEL     |
+| WILLIAM     |
+| JON         |
+| LISA        |
+| JEFF        |
+| DEBBIE      |
+| ROCK        |
+| GREGORY     |
+| JOHN        |
+| BELA        |
+| THORA       |
++-------------+
+128 rows in set (0.0243 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinct(first_name) from actor union select distinct(first_name) from cutomer;
+ERROR: 1146 (42S02): Table 'sakila.cutomer' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > select distinct(first_name) from actor union select distinct(first_name) from customer;
++-------------+
+| first_name  |
++-------------+
+| PENELOPE    |
+| NICK        |
+| ED          |
+| JENNIFER    |
+| JOHNNY      |
+| BETTE       |
+| GRACE       |
+| MATTHEW     |
+| JOE         |
+| CHRISTIAN   |
+| ZERO        |
+| KARL        |
+| UMA         |
+| VIVIEN      |
+| CUBA        |
+| FRED        |
+| HELEN       |
+| DAN         |
+| BOB         |
+| LUCILLE     |
+| KIRSTEN     |
+| ELVIS       |
+| SANDRA      |
+| CAMERON     |
+| KEVIN       |
+| RIP         |
+| JULIA       |
+| WOODY       |
+| ALEC        |
+| SISSY       |
+| TIM         |
+| MILLA       |
+| AUDREY      |
+| JUDY        |
+| BURT        |
+| VAL         |
+| TOM         |
+| GOLDIE      |
+| JODIE       |
+| KIRK        |
+| REESE       |
+| PARKER      |
+| FRANCES     |
+| ANNE        |
+| NATALIE     |
+| GARY        |
+| CARMEN      |
+| MENA        |
+| FAY         |
+| JUDE        |
+| DUSTIN      |
+| HENRY       |
+| JAYNE       |
+| RAY         |
+| ANGELA      |
+| MARY        |
+| JESSICA     |
+| KENNETH     |
+| MICHELLE    |
+| ADAM        |
+| SEAN        |
+| ANGELINA    |
+| CARY        |
+| GROUCHO     |
+| MAE         |
+| RALPH       |
+| SCARLETT    |
+| BEN         |
+| JAMES       |
+| MINNIE      |
+| GREG        |
+| SPENCER     |
+| CHARLIZE    |
+| CHRISTOPHER |
+| ELLEN       |
+| DARYL       |
+| GENE        |
+| MEG         |
+| CHRIS       |
+| JIM         |
+| SUSAN       |
+| WALTER      |
+| SIDNEY      |
+| GINA        |
+| WARREN      |
+| SYLVESTER   |
+| RUSSELL     |
+| MORGAN      |
+| HARRISON    |
+| RENEE       |
+| LIZA        |
+| SALMA       |
+| JULIANNE    |
+| ALBERT      |
+| CATE        |
+| GRETA       |
+| JANE        |
+| RICHARD     |
+| RITA        |
+| EWAN        |
+| WHOOPI      |
+| JADA        |
+| RIVER       |
+| KIM         |
+| EMILY       |
+| GEOFFREY    |
+| MERYL       |
+| IAN         |
+| LAURA       |
+| HARVEY      |
+| OPRAH       |
+| HUMPHREY    |
+| AL          |
+| LAURENCE    |
+| WILL        |
+| OLYMPIA     |
+| ALAN        |
+| MICHAEL     |
+| WILLIAM     |
+| JON         |
+| LISA        |
+| JEFF        |
+| DEBBIE      |
+| ROCK        |
+| GREGORY     |
+| JOHN        |
+| BELA        |
+| THORA       |
+| PATRICIA    |
+| LINDA       |
+| BARBARA     |
+| ELIZABETH   |
+| MARIA       |
+| MARGARET    |
+| DOROTHY     |
+| NANCY       |
+| KAREN       |
+| BETTY       |
+| DONNA       |
+| CAROL       |
+| RUTH        |
+| SHARON      |
+| SARAH       |
+| KIMBERLY    |
+| DEBORAH     |
+| SHIRLEY     |
+| CYNTHIA     |
+| MELISSA     |
+| BRENDA      |
+| AMY         |
+| ANNA        |
+| REBECCA     |
+| VIRGINIA    |
+| KATHLEEN    |
+| PAMELA      |
+| MARTHA      |
+| DEBRA       |
+| AMANDA      |
+| STEPHANIE   |
+| CAROLYN     |
+| CHRISTINE   |
+| MARIE       |
+| JANET       |
+| CATHERINE   |
+| ANN         |
+| JOYCE       |
+| DIANE       |
+| ALICE       |
+| JULIE       |
+| HEATHER     |
+| TERESA      |
+| DORIS       |
+| GLORIA      |
+| EVELYN      |
+| JEAN        |
+| CHERYL      |
+| MILDRED     |
+| KATHERINE   |
+| JOAN        |
+| ASHLEY      |
+| JUDITH      |
+| ROSE        |
+| JANICE      |
+| KELLY       |
+| NICOLE      |
+| CHRISTINA   |
+| KATHY       |
+| THERESA     |
+| BEVERLY     |
+| DENISE      |
+| TAMMY       |
+| IRENE       |
+| LORI        |
+| RACHEL      |
+| MARILYN     |
+| ANDREA      |
+| KATHRYN     |
+| LOUISE      |
+| SARA        |
+| JACQUELINE  |
+| WANDA       |
+| BONNIE      |
+| RUBY        |
+| LOIS        |
+| TINA        |
+| PHYLLIS     |
+| NORMA       |
+| PAULA       |
+| DIANA       |
+| ANNIE       |
+| LILLIAN     |
+| ROBIN       |
+| PEGGY       |
+| CRYSTAL     |
+| GLADYS      |
+| DAWN        |
+| CONNIE      |
+| FLORENCE    |
+| TRACY       |
+| EDNA        |
+| TIFFANY     |
+| ROSA        |
+| CINDY       |
+| WENDY       |
+| VICTORIA    |
+| EDITH       |
+| SHERRY      |
+| SYLVIA      |
+| JOSEPHINE   |
+| THELMA      |
+| SHANNON     |
+| SHEILA      |
+| ETHEL       |
+| ELAINE      |
+| MARJORIE    |
+| CARRIE      |
+| CHARLOTTE   |
+| MONICA      |
+| ESTHER      |
+| PAULINE     |
+| EMMA        |
+| JUANITA     |
+| ANITA       |
+| RHONDA      |
+| HAZEL       |
+| AMBER       |
+| EVA         |
+| APRIL       |
+| LESLIE      |
+| CLARA       |
+| JAMIE       |
+| JOANNE      |
+| ELEANOR     |
+| VALERIE     |
+| DANIELLE    |
+| MEGAN       |
+| ALICIA      |
+| SUZANNE     |
+| MICHELE     |
+| GAIL        |
+| BERTHA      |
+| DARLENE     |
+| VERONICA    |
+| JILL        |
+| ERIN        |
+| GERALDINE   |
+| LAUREN      |
+| CATHY       |
+| JOANN       |
+| LORRAINE    |
+| LYNN        |
+| SALLY       |
+| REGINA      |
+| ERICA       |
+| BEATRICE    |
+| DOLORES     |
+| BERNICE     |
+| YVONNE      |
+| ANNETTE     |
+| JUNE        |
+| SAMANTHA    |
+| MARION      |
+| DANA        |
+| STACY       |
+| ANA         |
+| IDA         |
+| VIVIAN      |
+| ROBERTA     |
+| HOLLY       |
+| BRITTANY    |
+| MELANIE     |
+| LORETTA     |
+| YOLANDA     |
+| JEANETTE    |
+| LAURIE      |
+| KATIE       |
+| KRISTEN     |
+| VANESSA     |
+| ALMA        |
+| SUE         |
+| ELSIE       |
+| BETH        |
+| JEANNE      |
+| VICKI       |
+| CARLA       |
+| TARA        |
+| ROSEMARY    |
+| EILEEN      |
+| TERRI       |
+| GERTRUDE    |
+| LUCY        |
+| TONYA       |
+| ELLA        |
+| STACEY      |
+| WILMA       |
+| KRISTIN     |
+| JESSIE      |
+| AGNES       |
+| VERA        |
+| WILLIE      |
+| CHARLENE    |
+| BESSIE      |
+| DELORES     |
+| MELINDA     |
+| PEARL       |
+| ARLENE      |
+| MAUREEN     |
+| COLLEEN     |
+| ALLISON     |
+| TAMARA      |
+| JOY         |
+| GEORGIA     |
+| CONSTANCE   |
+| LILLIE      |
+| CLAUDIA     |
+| JACKIE      |
+| MARCIA      |
+| TANYA       |
+| NELLIE      |
+| MARLENE     |
+| HEIDI       |
+| GLENDA      |
+| LYDIA       |
+| VIOLA       |
+| COURTNEY    |
+| MARIAN      |
+| STELLA      |
+| CAROLINE    |
+| DORA        |
+| JO          |
+| VICKIE      |
+| MATTIE      |
+| TERRY       |
+| MAXINE      |
+| IRMA        |
+| MABEL       |
+| MARSHA      |
+| MYRTLE      |
+| LENA        |
+| CHRISTY     |
+| DEANNA      |
+| PATSY       |
+| HILDA       |
+| GWENDOLYN   |
+| JENNIE      |
+| NORA        |
+| MARGIE      |
+| NINA        |
+| CASSANDRA   |
+| LEAH        |
+| PENNY       |
+| KAY         |
+| PRISCILLA   |
+| NAOMI       |
+| CAROLE      |
+| BRANDY      |
+| OLGA        |
+| BILLIE      |
+| DIANNE      |
+| TRACEY      |
+| LEONA       |
+| JENNY       |
+| FELICIA     |
+| SONIA       |
+| MIRIAM      |
+| VELMA       |
+| BECKY       |
+| BOBBIE      |
+| VIOLET      |
+| KRISTINA    |
+| TONI        |
+| MISTY       |
+| SHELLY      |
+| DAISY       |
+| RAMONA      |
+| SHERRI      |
+| ERIKA       |
+| ROBERT      |
+| DAVID       |
+| CHARLES     |
+| JOSEPH      |
+| THOMAS      |
+| DANIEL      |
+| PAUL        |
+| MARK        |
+| DONALD      |
+| GEORGE      |
+| STEVEN      |
+| EDWARD      |
+| BRIAN       |
+| RONALD      |
+| ANTHONY     |
+| JASON       |
+| TIMOTHY     |
+| JOSE        |
+| LARRY       |
+| JEFFREY     |
+| FRANK       |
+| SCOTT       |
+| ERIC        |
+| STEPHEN     |
+| ANDREW      |
+| RAYMOND     |
+| JOSHUA      |
+| JERRY       |
+| DENNIS      |
+| PATRICK     |
+| PETER       |
+| HAROLD      |
+| DOUGLAS     |
+| CARL        |
+| ARTHUR      |
+| RYAN        |
+| ROGER       |
+| JUAN        |
+| JACK        |
+| JONATHAN    |
+| JUSTIN      |
+| GERALD      |
+| KEITH       |
+| SAMUEL      |
+| LAWRENCE    |
+| NICHOLAS    |
+| ROY         |
+| BENJAMIN    |
+| BRUCE       |
+| BRANDON     |
+| HARRY       |
+| WAYNE       |
+| BILLY       |
+| STEVE       |
+| LOUIS       |
+| JEREMY      |
+| AARON       |
+| RANDY       |
+| HOWARD      |
+| EUGENE      |
+| CARLOS      |
+| BOBBY       |
+| VICTOR      |
+| MARTIN      |
+| ERNEST      |
+| PHILLIP     |
+| TODD        |
+| JESSE       |
+| CRAIG       |
+| SHAWN       |
+| CLARENCE    |
+| PHILIP      |
+| EARL        |
+| JIMMY       |
+| ANTONIO     |
+| DANNY       |
+| BRYAN       |
+| TONY        |
+| LUIS        |
+| MIKE        |
+| STANLEY     |
+| LEONARD     |
+| NATHAN      |
+| DALE        |
+| MANUEL      |
+| RODNEY      |
+| CURTIS      |
+| NORMAN      |
+| ALLEN       |
+| MARVIN      |
+| VINCENT     |
+| GLENN       |
+| JEFFERY     |
+| TRAVIS      |
+| CHAD        |
+| JACOB       |
+| LEE         |
+| MELVIN      |
+| ALFRED      |
+| KYLE        |
+| FRANCIS     |
+| BRADLEY     |
+| JESUS       |
+| HERBERT     |
+| FREDERICK   |
+| JOEL        |
+| EDWIN       |
+| DON         |
+| EDDIE       |
+| RICKY       |
+| TROY        |
+| RANDALL     |
+| BARRY       |
+| ALEXANDER   |
+| BERNARD     |
+| MARIO       |
+| LEROY       |
+| FRANCISCO   |
+| MARCUS      |
+| MICHEAL     |
+| THEODORE    |
+| CLIFFORD    |
+| MIGUEL      |
+| OSCAR       |
+| JAY         |
+| CALVIN      |
+| ALEX        |
+| RONNIE      |
+| BILL        |
+| LLOYD       |
+| TOMMY       |
+| LEON        |
+| DEREK       |
+| DARRELL     |
+| JEROME      |
+| FLOYD       |
+| LEO         |
+| ALVIN       |
+| WESLEY      |
+| GORDON      |
+| DEAN        |
+| JORGE       |
+| PEDRO       |
+| DERRICK     |
+| LEWIS       |
+| ZACHARY     |
+| COREY       |
+| HERMAN      |
+| MAURICE     |
+| VERNON      |
+| ROBERTO     |
+| CLYDE       |
+| GLEN        |
+| HECTOR      |
+| SHANE       |
+| RICARDO     |
+| SAM         |
+| RICK        |
+| LESTER      |
+| BRENT       |
+| RAMON       |
+| CHARLIE     |
+| TYLER       |
+| GILBERT     |
+| MARC        |
+| REGINALD    |
+| RUBEN       |
+| BRETT       |
+| ANGEL       |
+| NATHANIEL   |
+| RAFAEL      |
+| EDGAR       |
+| MILTON      |
+| RAUL        |
+| CHESTER     |
+| CECIL       |
+| DUANE       |
+| FRANKLIN    |
+| ANDRE       |
+| ELMER       |
+| BRAD        |
+| GABRIEL     |
+| RON         |
+| MITCHELL    |
+| ROLAND      |
+| ARNOLD      |
+| JARED       |
+| ADRIAN      |
+| CORY        |
+| CLAUDE      |
+| ERIK        |
+| DARRYL      |
+| NEIL        |
+| JAVIER      |
+| FERNANDO    |
+| CLINTON     |
+| TED         |
+| MATHEW      |
+| TYRONE      |
+| DARREN      |
+| LONNIE      |
+| LANCE       |
+| CODY        |
+| JULIO       |
+| KURT        |
+| ALLAN       |
+| NELSON      |
+| GUY         |
+| CLAYTON     |
+| HUGH        |
+| MAX         |
+| DWAYNE      |
+| DWIGHT      |
+| ARMANDO     |
+| FELIX       |
+| JIMMIE      |
+| EVERETT     |
+| JORDAN      |
+| WALLACE     |
+| KEN         |
+| JAIME       |
+| CASEY       |
+| ALFREDO     |
+| ALBERTO     |
+| DAVE        |
+| IVAN        |
+| JOHNNIE     |
+| BYRON       |
+| JULIAN      |
+| ISAAC       |
+| MORRIS      |
+| CLIFTON     |
+| WILLARD     |
+| ROSS        |
+| VIRGIL      |
+| ANDY        |
+| MARSHALL    |
+| SALVADOR    |
+| PERRY       |
+| SERGIO      |
+| SETH        |
+| KENT        |
+| TERRANCE    |
+| RENE        |
+| EDUARDO     |
+| TERRENCE    |
+| ENRIQUE     |
+| FREDDIE     |
+| WADE        |
+| AUSTIN      |
++-------------+
+647 rows in set (0.0608 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > use tb2;
+MySQL Error 1049: Unknown database 'tb2'
+ MySQL  localhost:3306 ssl  sakila  SQL > select * from tablaa;
+ERROR: 1146 (42S02): Table 'sakila.tablaa' doesn't exist
+ MySQL  localhost:3306 ssl  sakila  SQL > use tbd2;
+Default schema set to `tbd2`.
+Fetching global names, object names from `tbd2` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
++----+--------+
+4 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablab;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | X      |
+|  2 | Y      |
+|  3 | Z      |
+|  4 | A      |
+|  5 | B      |
++----+--------+
+5 rows in set (0.0005 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa intersect select * from tablab;
+Empty set (0.0006 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select nombre from tablaa intersect select nombre from tablab;
++--------+
+| nombre |
++--------+
+| A      |
+| B      |
++--------+
+2 rows in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from a;
+ERROR: 1146 (42S02): Table 'tbd2.a' doesn't exist
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa;
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
+|  3 | C      |
+|  4 | D      |
++----+--------+
+4 rows in set (0.0012 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL > select * from tablaa where nombre in (
+                                     -> select nombre from tablab);
++----+--------+
+| id | nombre |
++----+--------+
+|  1 | A      |
+|  2 | B      |
++----+--------+
+2 rows in set (0.0028 sec)
+ MySQL  localhost:3306 ssl  tbd2  SQL >
