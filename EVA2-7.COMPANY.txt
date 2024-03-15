@@ -1,0 +1,249 @@
+MySQL Shell 8.0.35
+
+Copyright (c) 2016, 2023, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ************
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): N
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > create database company;
+Query OK, 1 row affected (0.0310 sec)
+ MySQL  localhost:3306 ssl  SQL > CREATE TABLE Employee (
+                               -> EmployeeId INT PRIMARY KEY,
+                               -> FullName VARCHAR(50) NOT NULL,
+                               -> Technology VARCHAR(50) NOT NULL,
+                               -> Salary FLOAT NOT NULL,
+                               -> Gender VARCHAR(50) NOT NULL,
+                               -> Age INT NOT NULL);
+ERROR: 1046 (3D000): No database selected
+ MySQL  localhost:3306 ssl  SQL > INSERT INTO Employee (EmployeeId, FullName, Technology, Salary, Gender, Age)
+                               -> VALUES (1001, 'John Doe', 'Java', 35000, 'Male', 25),
+                               -> (1002, 'Mary Smith', 'Java', 45000, 'Female', 27),
+                               -> (1003, 'James Brown', 'Java', 50000, 'Male', 28),
+                               -> (1004, 'Mike Walker', '.NET', 50000, 'Male', 28),
+                               -> (1005, 'Linda Jones', '.NET', 75000, 'Female', 26),
+                               -> (1006, 'Anurag Mohanty', '.NET', 35000, 'Male', 25),
+                               -> (1007, 'Priyanla Dewangan', '.NET', 45000, 'Female', 27);
+ERROR: 1046 (3D000): No database selected
+ MySQL  localhost:3306 ssl  SQL > use company;
+Default schema set to `company`.
+Fetching global names, object names from `company` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  company  SQL > CREATE TABLE Employee ( EmployeeId INT PRIMARY KEY, FullName VARCHAR(50) NOT NULL, Technology VARCHAR(50) NOT NULL, Salary FLOAT NOT NULL, Gender VARCHAR(50) NOT NULL, Age INT NOT NULL);
+Query OK, 0 rows affected (0.1444 sec)
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Employee (EmployeeId, FullName, Technology, Salary, Gender, Age)  VALUES (1001, 'John Doe', 'Java', 35000, 'Male', 25), (1002, 'Mary Smith', 'Java', 45000, 'Female', 27), (1003, 'James Brown', 'Java', 50000, 'Male', 28), (1004, 'Mike Walker', '.NET', 50000, 'Male', 28), (1005, 'Linda Jones', '.NET', 75000, 'Female', 26), (1006, 'Anurag Mohanty', '.NET', 35000, 'Male', 25), (1007, 'Priyanla Dewangan', '.NET', 45000, 'Female', 27);
+Query OK, 7 rows affected (0.0246 sec)
+
+Records: 7  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  company  SQL > CREATE TABLE Projects (
+                                        -> ProjectId INT PRIMARY KEY AUTO_INCREMENT,
+                                        -> ProjectName VARCHAR(200) NOT NULL,
+                                        -> EmployeeId INT,
+                                        -> StartDate DATETIME,
+                                        -> EndDate DATETIME,
+                                        -> FOREIGN KEY (EmployeeId) REFERENCES Employee(EmployeeId));
+Query OK, 0 rows affected (0.1087 sec)
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Projects (ProjectName, EmployeeId, StartDate, EndDate)
+                                        -> VALUES ('Develop Ecommerse Website from scratch', 1003, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)),
+                                        -> ('WordPress Website for our company', 1002, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)),
+                                        -> ('Manage our Company Servers', 1007, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)),
+                                        -> ('Hosting account is not working', 1009, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)),
+                                        -> ('MySQL database from my desktop application', 1010, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)),
+                                        -> ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY)),
+                                        -> ('Migrate web application and database to new server', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY)),
+                                        -> ('Android Application development', 1004, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)),
+                                        -> ('Hosting account is not working', 1001, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)),
+                                        -> ('MySQL database from my desktop application', 1008, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)),
+                                        -> ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY));
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`company`.`projects`, CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`EmployeeId`) REFERENCES `employee` (`EmployeeId`))
+ MySQL  localhost:3306 ssl  company  SQL >
+ MySQL  localhost:3306 ssl  company  SQL > show create table projects;
++----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table
+
+
+                                                                                                              |
++----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| projects | CREATE TABLE `projects` (
+  `ProjectId` int NOT NULL AUTO_INCREMENT,
+  `ProjectName` varchar(200) NOT NULL,
+  `EmployeeId` int DEFAULT NULL,
+  `StartDate` datetime DEFAULT NULL,
+  `EndDate` datetime DEFAULT NULL,
+  PRIMARY KEY (`ProjectId`),
+  KEY `EmployeeId` (`EmployeeId`),
+  CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`EmployeeId`) REFERENCES `employee` (`EmployeeId`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0046 sec)
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Projects (ProjectName, EmployeeId, StartDate, EndDate)  VALUES ('Develop Ecommerse Website from scratch', 1003, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)), ('WordPress Website for our company', 1002, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)), ('Manage our Company Servers', 1007, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)), ('Hosting account is not working', 1009, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)), ('MySQL database from my desktop application', 1010, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)), ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY)), ('Migrate web application and database to new server', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY)), ('Android Application development', 1004, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)), ('Hosting account is not working', 1001, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)), ('MySQL database from my desktop application', 1008, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)), ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY));
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`company`.`projects`, CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`EmployeeId`) REFERENCES `employee` (`EmployeeId`))
+ MySQL  localhost:3306 ssl  company  SQL > show create table employee;
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table
+
+                                                                              |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| employee | CREATE TABLE `employee` (
+  `EmployeeId` int NOT NULL,
+  `FullName` varchar(50) NOT NULL,
+  `Technology` varchar(50) NOT NULL,
+  `Salary` float NOT NULL,
+  `Gender` varchar(50) NOT NULL,
+  `Age` int NOT NULL,
+  PRIMARY KEY (`EmployeeId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.0014 sec)
+ MySQL  localhost:3306 ssl  company  SQL > drop table projects;
+Query OK, 0 rows affected (0.0803 sec)
+ MySQL  localhost:3306 ssl  company  SQL > CREATE TABLE Projects ( ProjectId INT PRIMARY KEY AUTO_INCREMENT, ProjectName VARCHAR(200) NOT NULL, EmployeeId INT, StartDate DATETIME, EndDate DATETIME, FOREIGN KEY (EmployeeId) REFERENCES Employee(EmployeeId));
+Query OK, 0 rows affected (0.1021 sec)
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Projects (ProjectName, EmployeeId, StartDate, EndDate)
+                                        -> VALUES ('Develop Ecommerse Website from scratch', 1003, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)),
+                                        -> ('WordPress Website for our company', 1002, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)),
+                                        -> ('Manage our Company Servers', 1007, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)),
+                                        -> ('MySQL database from my desktop application', 1010, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)),
+                                        -> ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY)),
+                                        -> ('Migrate web application and database to new server', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY)),
+                                        -> ('Android Application development', 1004, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)),
+                                        -> ('Hosting account is not working', 1001, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)),
+                                        -> ('MySQL database from my desktop application', 1008, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)),
+                                        -> ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY));
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`company`.`projects`, CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`EmployeeId`) REFERENCES `employee` (`EmployeeId`))
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Employee (EmployeeId, FullName, Technology, Salary, Gender, Age)  VALUES (1009, 'John Doe', 'Python', 35000, 'Male', 25), (1010, 'Mary Smith', 'JavaScript', 45000, 'Female', 27)
+                                        -> ;
+Query OK, 2 rows affected (0.0211 sec)                                                                                  
+Records: 2  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  company  SQL > CREATE TABLE Projects ( ProjectId INT PRIMARY KEY AUTO_INCREMENT, ProjectName VARCHAR(200) NOT NULL, EmployeeId INT, StartDate DATETIME, EndDate DATETIME, FOREIGN KEY (EmployeeId) REFERENCES Employee(EmployeeId));
+ERROR: 1050 (42S01): Table 'projects' already exists
+ MySQL  localhost:3306 ssl  company  SQL >
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Projects (ProjectName, EmployeeId, StartDate, EndDate)
+                                        -> VALUES ('Develop Ecommerse Website from scratch', 1003, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)),
+                                        -> ('WordPress Website for our company', 1002, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)),
+                                        -> ('Manage our Company Servers', 1007, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)),
+                                        -> ('Hosting account is not working', 1009, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)),
+                                        -> ('MySQL database from my desktop application', 1010, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)),
+                                        -> ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY)),
+                                        -> ('Migrate web application and database to new server', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY)),
+                                        -> ('Android Application development', 1004, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)),
+                                        -> ('Hosting account is not working', 1001, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)),
+                                        -> ('MySQL database from my desktop application', 1008, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)),
+                                        -> ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY));
+ERROR: 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`company`.`projects`, CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`EmployeeId`) REFERENCES `employee` (`EmployeeId`))
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Employee (EmployeeId, FullName, Technology, Salary, Gender, Age)  VALUES (1008, 'John Doe', 'PASCAL', 35000, 'Male', 25);
+Query OK, 1 row affected (0.0219 sec)
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Projects (ProjectName, EmployeeId, StartDate, EndDate)  VALUES ('Develop Ecommerse Website from scratch', 1003, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)), ('WordPress Website for our company', 1002, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)), ('Manage our Company Servers', 1007, NOW(), DATE_ADD(NOW(), INTERVAL 45 DAY)), ('Hosting account is not working', 1009, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)), ('MySQL database from my desktop application', 1010, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)), ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY)), ('Migrate web application and database to new server', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY)), ('Android Application development', 1004, NOW(), DATE_ADD(NOW(), INTERVAL 30 DAY)), ('Hosting account is not working', 1001, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY)), ('MySQL database from my desktop application', 1008, NOW(), DATE_ADD(NOW(), INTERVAL 15 DAY)), ('Develop new WordPress plugin for my business website', NULL, NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY));
+Query OK, 11 rows affected (0.0182 sec)
+
+Records: 11  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  company  SQL > 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4
+                                        -> 4;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4
+4' at line 1
+ MySQL  localhost:3306 ssl  company  SQL > CREATE TABLE Address(
+                                        -> AddressId INT PRIMARY KEY AUTO_INCREMENT,
+                                        -> EmployeeId INT,
+                                        -> Country VARCHAR(50),
+                                        -> State VARCHAR(50),
+                                        -> City VARCHAR(50),
+                                        -> FOREIGN KEY (EmployeeId) REFERENCES Employee(EmployeeId));
+Query OK, 0 rows affected (0.1718 sec)
+ MySQL  localhost:3306 ssl  company  SQL > INSERT INTO Address (EmployeeId, Country, State, City)
+                                        -> Values (1001, 'India', 'Odisha', 'BBSR'),
+                                        -> (1002, 'India', 'Maharashtra', 'Mumbai'),
+                                        -> (1003, 'India', 'Maharashtra', 'Pune'),
+                                        -> (1004, 'India', 'Odisha', 'Cuttack'),
+                                        -> (1005, 'India', 'Maharashtra', 'Nagpur'),
+                                        -> (1006, 'India', 'Odisha', 'BBSR');
+Query OK, 6 rows affected (0.0188 sec)
+
+Records: 6  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  company  SQL > show tables;
++-------------------+
+| Tables_in_company |
++-------------------+
+| address           |
+| employee          |
+| projects          |
++-------------------+
+3 rows in set (0.0280 sec)
+ MySQL  localhost:3306 ssl  company  SQL > select * from projects;
++-----------+------------------------------------------------------+------------+---------------------+---------------------+
+| ProjectId | ProjectName                                          | EmployeeId | StartDate           | EndDate
+    |
++-----------+------------------------------------------------------+------------+---------------------+---------------------+
+|        22 | Develop Ecommerse Website from scratch               |       1003 | 2024-03-14 17:15:13 | 2024-04-13 17:15:13 |
+|        23 | WordPress Website for our company                    |       1002 | 2024-03-14 17:15:13 | 2024-04-28 17:15:13 |
+|        24 | Manage our Company Servers                           |       1007 | 2024-03-14 17:15:13 | 2024-04-28 17:15:13 |
+|        25 | Hosting account is not working                       |       1009 | 2024-03-14 17:15:13 | 2024-03-21 17:15:13 |
+|        26 | MySQL database from my desktop application           |       1010 | 2024-03-14 17:15:13 | 2024-03-29 17:15:13 |
+|        27 | Develop new WordPress plugin for my business website |       NULL | 2024-03-14 17:15:13 | 2024-03-24 17:15:13 |
+|        28 | Migrate web application and database to new server   |       NULL | 2024-03-14 17:15:13 | 2024-03-19 17:15:13 |
+|        29 | Android Application development                      |       1004 | 2024-03-14 17:15:13 | 2024-04-13 17:15:13 |
+|        30 | Hosting account is not working                       |       1001 | 2024-03-14 17:15:13 | 2024-03-21 17:15:13 |
+|        31 | MySQL database from my desktop application           |       1008 | 2024-03-14 17:15:13 | 2024-03-29 17:15:13 |
+|        32 | Develop new WordPress plugin for my business website |       NULL | 2024-03-14 17:15:13 | 2024-03-24 17:15:13 |
++-----------+------------------------------------------------------+------------+---------------------+---------------------+
+11 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  company  SQL > select * from eployee;
+ERROR: 1146 (42S02): Table 'company.eployee' doesn't exist
+ MySQL  localhost:3306 ssl  company  SQL > select * from employee;
++------------+-------------------+------------+--------+--------+-----+
+| EmployeeId | FullName          | Technology | Salary | Gender | Age |
++------------+-------------------+------------+--------+--------+-----+
+|       1001 | John Doe          | Java       |  35000 | Male   |  25 |
+|       1002 | Mary Smith        | Java       |  45000 | Female |  27 |
+|       1003 | James Brown       | Java       |  50000 | Male   |  28 |
+|       1004 | Mike Walker       | .NET       |  50000 | Male   |  28 |
+|       1005 | Linda Jones       | .NET       |  75000 | Female |  26 |
+|       1006 | Anurag Mohanty    | .NET       |  35000 | Male   |  25 |
+|       1007 | Priyanla Dewangan | .NET       |  45000 | Female |  27 |
+|       1008 | John Doe          | PASCAL     |  35000 | Male   |  25 |
+|       1009 | John Doe          | Python     |  35000 | Male   |  25 |
+|       1010 | Mary Smith        | JavaScript |  45000 | Female |  27 |
++------------+-------------------+------------+--------+--------+-----+
+10 rows in set (0.0034 sec)
+ MySQL  localhost:3306 ssl  company  SQL > select * from address};
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '}' at line 1
+ MySQL  localhost:3306 ssl  company  SQL > select * from address;
++-----------+------------+---------+-------------+---------+
+| AddressId | EmployeeId | Country | State       | City    |
++-----------+------------+---------+-------------+---------+
+|         1 |       1001 | India   | Odisha      | BBSR    |
+|         2 |       1002 | India   | Maharashtra | Mumbai  |
+|         3 |       1003 | India   | Maharashtra | Pune    |
+|         4 |       1004 | India   | Odisha      | Cuttack |
+|         5 |       1005 | India   | Maharashtra | Nagpur  |
+|         6 |       1006 | India   | Odisha      | BBSR    |
++-----------+------------+---------+-------------+---------+
+6 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  company  SQL >
