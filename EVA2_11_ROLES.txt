@@ -1,0 +1,129 @@
+MySQL Shell 8.0.35
+
+Copyright (c) 2016, 2023, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  JS > \sql
+Switching to SQL mode... Commands end with ;
+ MySQL  SQL > \c --mc connect root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **********
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 8
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > create roles 'rol_lectura';
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'roles 'rol_lectura'' at line 1
+ MySQL  localhost:3306 ssl  SQL > create role 'rol_lectura';
+Query OK, 0 rows affected (0.0361 sec)
+ MySQL  localhost:3306 ssl  SQL > grant select on *.* to 'rol_lectura';
+Query OK, 0 rows affected (0.0147 sec)
+ MySQL  localhost:3306 ssl  SQL > create user 'sololectura'@'localhost' identified by 'root';
+Query OK, 0 rows affected (0.0215 sec)
+ MySQL  localhost:3306 ssl  SQL > grant 'rol_lectura' to 'sololectura'@'localhost';
+Query OK, 0 rows affected (0.0332 sec)
+ MySQL  localhost:3306 ssl  SQL > \c --mc connect sololectura@localhost
+Creating a Classic session to 'sololectura@localhost'
+Please provide the password for 'sololectura@localhost': ****
+Save password for 'sololectura@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Error during auto-completion cache update: Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
+Closing old connection...
+Your MySQL connection id is 9
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
++--------------------+
+2 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  SQL > \c --mc connect root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **********
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 10
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > set persist activate_all_roles_on_login=on;
+Query OK, 0 rows affected (0.0289 sec)
+ MySQL  localhost:3306 ssl  SQL > \c --mc connect sololectura@localhost
+Creating a Classic session to 'sololectura@localhost'
+Please provide the password for 'sololectura@localhost': ****
+Save password for 'sololectura@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Error during auto-completion cache update: Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
+Closing old connection...
+Your MySQL connection id is 11
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++-----------------------+
+| Database              |
++-----------------------+
+| agencia               |
+| company               |
+| empresa               |
+| examen_1              |
+| examen_1_credit_cards |
+| information_schema    |
+| mysql                 |
+| orders                |
+| orders2               |
+| orders3               |
+| performance_schema    |
+| registro              |
+| safe                  |
+| sakila                |
+| sys                   |
+| tbd_1                 |
+| tbd_2                 |
+| world                 |
++-----------------------+
+18 rows in set (0.0014 sec)
+ MySQL  localhost:3306 ssl  SQL > use company;
+Default schema set to `company`.
+Fetching global names, object names from `company` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  company  SQL > show tables;
++-------------------+
+| Tables_in_company |
++-------------------+
+| address           |
+| employee          |
+| projects          |
+| x                 |
++-------------------+
+4 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  company  SQL > select * from address;
++-----------+------------+---------+-------------+---------+
+| AddressId | EmployeeId | Country | State       | City    |
++-----------+------------+---------+-------------+---------+
+|         1 |       1001 | India   | Odisha      | BBSR    |
+|         2 |       1002 | India   | Maharashtra | Mumbai  |
+|         3 |       1003 | India   | Maharashtra | Pune    |
+|         4 |       1004 | India   | Odisha      | Cuttack |
+|         5 |       1005 | India   | Maharashtra | Nagpur  |
+|         6 |       1006 | India   | Odisha      | BBSR    |
++-----------+------------+---------+-------------+---------+
+6 rows in set (0.0244 sec)
+ MySQL  localhost:3306 ssl  company  SQL > drop table address;
+ERROR: 1142 (42000): DROP command denied to user 'sololectura'@'localhost' for table 'address'
+ MySQL  localhost:3306 ssl  company  SQL > \c --mc connect root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': **********
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Closing old connection...
+Your MySQL connection id is 12
+Server version: 8.0.35 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > revoke;
+ERROR: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ MySQL  localhost:3306 ssl  SQL >
